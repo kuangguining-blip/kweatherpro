@@ -1,0 +1,9 @@
+deploy.py
+deploy_log.txt
+check_token.py
+token_check.txt
+server.py
+*.pyc
+__pycache__/
+.DS_Store
+Thumbs.db
