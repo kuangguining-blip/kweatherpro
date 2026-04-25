@@ -1,0 +1,17 @@
+# GitHub Pages 配置 - KWeatherPro
+# 静态网站，无需 Jekyll 构建
+theme: null
+plugins: []
+markdown: kramdown
+
+# SEO
+title: KWeatherPro - 全球天气预报
+description: 全球7大洲100+城市机场实时天气，7天预报，逐小时预报，免费开放
+url: https://kweatherpro.com
+baseurl: ""
+
+# 排除不需要发布的文件
+exclude:
+  - README.md
+  - server.py
+  - "启动.bat"
