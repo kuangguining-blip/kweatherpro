@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kuangguining-blip.github.io/kweatherpro/sitemap.xml
