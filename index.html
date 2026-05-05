@@ -61,10 +61,10 @@
 
     <style>
         :root {
-            --primary: #10b981;
-            --primary-dark: #059669;
-            --primary-light: #d1fae5;
-            --bg-primary: #f0fdf4;
+            --primary: #6ee7b7;
+            --primary-dark: #34d399;
+            --primary-light: #ecfdf5;
+            --bg-primary: #f0fdf9;
             --bg-secondary: #ffffff;
             --bg-card: #ffffff;
             --text-primary: #1f2937;
@@ -73,7 +73,7 @@
             --border: #e5e7eb;
             --shadow: 0 2px 4px rgba(0,0,0,0.05);
             --shadow-lg: 0 8px 16px rgba(0,0,0,0.1);
-            --gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --gradient: linear-gradient(135deg, #6ee7b7 0%, #34d399 100%);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -85,7 +85,7 @@
         }
         .header {
             background: var(--gradient);
-            color: white;
+            color: #064e3b;
             padding: 0.6rem 1.5rem;
             position: sticky;
             top: 0;
@@ -105,7 +105,7 @@
         .logo-icon { font-size: 1.3rem; }
         .header-actions { display: flex; align-items: center; gap: 0.5rem; }
         .refresh-info {
-            background: rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.08);
             padding: 0.25rem 0.6rem;
             border-radius: 1.5rem;
             font-size: 0.7rem;
@@ -115,19 +115,107 @@
         }
         .refresh-dot { width: 5px; height: 5px; background: #fbbf24; border-radius: 50%; animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-        .unit-toggle { display: flex; background: rgba(255,255,255,0.2); border-radius: 1.5rem; padding: 0.1rem; }
+        .unit-toggle { display: flex; background: rgba(0,0,0,0.08); border-radius: 1.5rem; padding: 0.1rem; }
         .unit-btn {
             padding: 0.25rem 0.5rem;
             border: none;
             background: transparent;
-            color: rgba(255,255,255,0.8);
+            color: rgba(6,78,59,0.7);
             cursor: pointer;
             border-radius: 1.5rem;
             font-weight: 500;
             font-size: 0.75rem;
             transition: all 0.2s;
         }
-        .unit-btn.active { background: white; color: var(--primary); }
+        .unit-btn.active { background: white; color: var(--primary-dark); }
+        .font-size-control { display: flex; align-items: center; gap: 0.2rem; background: rgba(0,0,0,0.08); border-radius: 1.5rem; padding: 0.1rem; }
+        .font-size-btn {
+            padding: 0.25rem 0.45rem;
+            border: none;
+            background: transparent;
+            color: rgba(6,78,59,0.7);
+            cursor: pointer;
+            border-radius: 1.5rem;
+            font-weight: 600;
+            font-size: 0.75rem;
+            transition: all 0.2s;
+            line-height: 1;
+        }
+        .font-size-btn:hover { background: rgba(0,0,0,0.08); }
+        .font-size-btn.active { background: white; color: var(--primary-dark); }
+        .font-size-label { color: rgba(6,78,59,0.6); font-size: 0.65rem; padding: 0 0.15rem; }
+        .lang-toggle { display: flex; background: rgba(0,0,0,0.08); border-radius: 1.5rem; padding: 0.1rem; }
+        .lang-btn {
+            padding: 0.25rem 0.5rem;
+            border: none;
+            background: transparent;
+            color: rgba(6,78,59,0.7);
+            cursor: pointer;
+            border-radius: 1.5rem;
+            font-weight: 600;
+            font-size: 0.72rem;
+            transition: all 0.2s;
+        }
+        .lang-btn:hover { background: rgba(0,0,0,0.08); }
+        .lang-btn.active { background: white; color: var(--primary-dark); }
+        .share-btn {
+            display: flex; align-items: center; gap: 0.3rem;
+            padding: 0.3rem 0.7rem;
+            background: rgba(0,0,0,0.08);
+            border: none; color: #064e3b;
+            border-radius: 1.5rem;
+            font-size: 0.72rem; font-weight: 600;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .share-btn:hover { background: rgba(0,0,0,0.15); }
+        /* 分享弹窗 */
+        .share-modal-mask {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.45); z-index: 9999;
+            align-items: center; justify-content: center;
+        }
+        .share-modal-mask.show { display: flex; }
+        .share-modal {
+            background: white; border-radius: 1rem; padding: 1.5rem;
+            max-width: 360px; width: 90%; text-align: center;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+            position: relative; animation: fadeUp 0.2s ease-out;
+        }
+        @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+        .share-modal h3 { margin: 0 0 0.8rem; font-size: 1rem; color: var(--text-primary); }
+        .share-modal-close {
+            position: absolute; top: 0.6rem; right: 0.8rem;
+            background: none; border: none; font-size: 1.3rem;
+            cursor: pointer; color: var(--text-muted); line-height: 1;
+        }
+        .share-qr { margin: 0.8rem auto; display: flex; justify-content: center; }
+        .share-qr canvas { border-radius: 0.5rem; }
+        .share-link-box {
+            display: flex; gap: 0.4rem; margin-top: 0.8rem; align-items: center;
+        }
+        .share-link-input {
+            flex: 1; padding: 0.4rem 0.6rem; border: 1px solid var(--border);
+            border-radius: 0.4rem; font-size: 0.72rem; color: var(--text-secondary);
+            background: var(--bg-primary); overflow: hidden; text-overflow: ellipsis;
+        }
+        .share-copy-btn {
+            padding: 0.4rem 0.8rem; background: var(--primary); color: white;
+            border: none; border-radius: 0.4rem; font-size: 0.72rem;
+            cursor: pointer; white-space: nowrap; transition: background 0.15s;
+        }
+        .share-copy-btn:hover { background: var(--primary-dark); }
+        .share-copy-btn.copied { background: #38a169; }
+        .share-tip { font-size: 0.65rem; color: var(--text-muted); margin-top: 0.6rem; }
+        /* 字体大小等级 */
+        body.font-sm { font-size: 13px; }
+        body.font-md { font-size: 15px; }
+        body.font-lg { font-size: 17px; }
+        body.font-sm .current-temp { font-size: 2.2rem; }
+        body.font-md .current-temp { font-size: 2.8rem; }
+        body.font-lg .current-temp { font-size: 3.4rem; }
+        body.font-sm .apt-temp-big { font-size: 1.7rem; }
+        body.font-md .apt-temp-big { font-size: 2.2rem; }
+        body.font-lg .apt-temp-big { font-size: 2.7rem; }
         .main-container { max-width: 100%; margin: 0; padding: 1rem; display: flex; gap: 1rem; height: calc(100vh - 60px); }
         .sidebar { width: 420px; flex-shrink: 0; display: flex; flex-direction: column; gap: 0.5rem; }
         .search-box { position: relative; }
@@ -185,16 +273,16 @@
             text-align: center;
         }
         .city-btn:hover { border-color: var(--primary); background: var(--primary-light); }
-        .city-btn.active { border-color: var(--primary); background: var(--primary); color: white; }
+        .city-btn.active { border-color: var(--primary); background: var(--primary); color: #064e3b; }
         .city-btn-name { font-weight: 600; font-size: 0.72rem; }
         .city-btn-airports { font-size: 0.58rem; color: var(--text-muted); margin-top: 0.1rem; }
-        .city-btn.active .city-btn-airports { color: rgba(255,255,255,0.8); }
+        .city-btn.active .city-btn-airports { color: rgba(6,78,59,0.7); }
         .weather-content { flex: 1; display: flex; flex-direction: column; gap: 0.75rem; overflow-y: auto; }
         .current-weather {
             background: var(--gradient);
             border-radius: 1rem;
             padding: 1rem;
-            color: white;
+            color: #064e3b;
             box-shadow: var(--shadow-lg);
         }
         .current-header { display: flex; justify-content: space-between; align-items: flex-start; }
@@ -205,11 +293,11 @@
         .current-temp { font-size: 2.8rem; font-weight: 700; line-height: 1; }
         .current-desc { font-size: 1rem; opacity: 0.95; }
         .current-details { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-        .detail-item { background: rgba(255,255,255,0.15); padding: 0.4rem 0.6rem; border-radius: 0.4rem; flex: 1; min-width: 70px; }
-        .detail-label { font-size: 0.6rem; opacity: 0.9; }
+        .detail-item { background: rgba(0,0,0,0.08); padding: 0.4rem 0.6rem; border-radius: 0.4rem; flex: 1; min-width: 70px; }
+        .detail-label { font-size: 0.6rem; opacity: 0.8; }
         .detail-value { font-size: 0.9rem; font-weight: 600; }
         .weather-alert {
-            background: rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.1);
             border-radius: 0.4rem;
             padding: 0.4rem 0.6rem;
             margin-top: 0.4rem;
@@ -227,9 +315,9 @@
         .hourly-scroll { overflow-x: auto; padding-bottom: 0.3rem; }
         .hourly-grid { display: flex; gap: 0.3rem; min-width: max-content; }
         .hour-item { text-align: center; padding: 0.5rem 0.35rem; border-radius: 0.4rem; background: var(--bg-primary); min-width: 55px; }
-        .hour-item.now { background: var(--primary); color: white; }
+        .hour-item.now { background: var(--primary); color: #064e3b; }
         .hour-time { font-size: 0.6rem; color: var(--text-secondary); }
-        .hour-item.now .hour-time { color: rgba(255,255,255,0.9); }
+        .hour-item.now .hour-time { color: rgba(6,78,59,0.8); }
         .hour-icon { font-size: 1.1rem; margin: 0.15rem 0; }
         .hour-temp { font-size: 0.8rem; font-weight: 600; }
         .hour-precip { font-size: 0.55rem; color: var(--primary); }
@@ -260,7 +348,7 @@
             border-bottom: 1px solid var(--border);
         }
         .airport-section-header .apt-badge {
-            background: var(--primary); color: #fff;
+            background: var(--primary); color: #064e3b;
             font-size: 0.7rem; font-weight: 700;
             padding: 0.15rem 0.45rem; border-radius: 0.3rem;
             letter-spacing: 0.05em;
@@ -339,6 +427,30 @@
                     <button class="unit-btn active" data-unit="celsius">°C</button>
                     <button class="unit-btn" data-unit="fahrenheit">°F</button>
                 </div>
+                <div class="font-size-control">
+                    <span class="font-size-label">A</span>
+                    <button class="font-size-btn" data-size="sm">小</button>
+                    <button class="font-size-btn active" data-size="md">中</button>
+                    <button class="font-size-btn" data-size="lg">大</button>
+                </div>
+                <div class="lang-toggle">
+                    <button class="lang-btn active" data-lang="zh">中文</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                </div>
+                <button class="share-btn" id="shareBtn">📤 <span id="shareBtnText">分享</span></button>
+                <!-- 分享弹窗 -->
+                <div class="share-modal-mask" id="shareModal">
+                    <div class="share-modal">
+                        <button class="share-modal-close" id="shareClose">&times;</button>
+                        <h3 id="shareTitle">分享天气页面</h3>
+                        <div class="share-qr" id="shareQr"></div>
+                        <div class="share-link-box">
+                            <input class="share-link-input" id="shareLinkInput" readonly value="">
+                            <button class="share-copy-btn" id="shareCopyBtn">复制链接</button>
+                        </div>
+                        <div class="share-tip" id="shareTip">微信扫码打开，或复制链接发送给好友</div>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
@@ -361,8 +473,8 @@
         <div class="weather-content" id="weatherContent">
             <div class="no-selection">
                 <div class="no-selection-icon">🌤️</div>
-                <h2>选择一个城市查看天气</h2>
-                <p>点击左侧任意城市即可查看详细预报</p>
+                <h2 id="noSelTitle">选择一个城市查看天气</h2>
+                <p id="noSelHint">点击左侧任意城市即可查看详细预报</p>
             </div>
         </div>
     </main>
@@ -897,7 +1009,7 @@
                     {city:"累西腓",airports:[{code:"REC",name:"机场",lat:-8.1260,lon:-34.9240}]}
                 ],
                 "🇦🇷 阿根廷": [
-                    {city:"布宜诺斯艾利斯",airports:[{code:"EZE",name:"埃塞萨",lat:-34.8222,lon:-58.5358},{code:"AEP",name:"霍尔赫纽伯里",lat:-34.5586,lon:-58.4166}]},
+                    {city:"布宜诺斯艾利斯",airports:[{code:"EZE",name:"米斯特·皮斯塔里尼国际机场",lat:-34.8222,lon:-58.5358},{code:"AEP",name:"霍尔赫纽伯里",lat:-34.5586,lon:-58.4166}]},
                     {city:"科尔多瓦",airports:[{code:"COR",name:"机场",lat:-31.3240,lon:-64.2080}]},
                     {city:"门多萨",airports:[{code:"MDZ",name:"机场",lat:-32.8320,lon:-68.7960}]}
                 ],
@@ -1193,6 +1305,223 @@
         ? `${Math.round(toF(t))}°F` : `${Math.round(t)}°C`;
     const getWD = deg => WD[Math.round(((deg % 360) + 360) % 360 / 45) % 8];
 
+    // ============ 国际化语言包 ============
+    const I18N = {
+        zh: {
+            searchPlaceholder: '🔍 搜索任意城市/机场（跨所有地区）...',
+            loadingUpdate: '加载中...',
+            updatePrefix: '更新: ',
+            selectCity: '选择一个城市查看天气',
+            selectCityHint: '点击左侧任意城市即可查看详细预报',
+            noResult: '没有找到匹配的城市',
+            searchResults: '🔍 搜索结果',
+            loading: (city) => `加载 ${city} 各机场天气...`,
+            airports: (n) => `${n} 个机场实时天气`,
+            continents: {
+                'asia': '🌏 亚洲',
+                'middle-east': '🕌 中东',
+                'europe': '🌍 欧洲',
+                'north-america': '🌎 北美洲',
+                'south-america': '🌎 南美洲',
+                'oceania': '🏝️ 大洋洲',
+                'africa': '🌍 非洲',
+            },
+            footer: 'Data: <a href="https://open-meteo.com/" target="_blank">Open-Meteo</a> | 每10分钟自动刷新 | 免费开放API · 7天预报 | © KWeatherPro',
+            fontSizes: ['小','中','大'],
+            humidity: '湿度', feelsLike: '体感', wind: '风速', pressure: '气压',
+            today: '今天', hourFmt: (h) => `${h}时`,
+            precipProb: '降水概率', high: '高', low: '低',
+            apiError: '⚠️ 无法连接天气数据服务，请检查网络连接后重试。如果在中国大陆，可能需要科学上网访问 Open-Meteo API。',
+        },
+        en: {
+            searchPlaceholder: '🔍 Search city / airport (e.g. NYC, Dubai, Tokyo)...',
+            loadingUpdate: 'Loading...',
+            updatePrefix: 'Updated: ',
+            selectCity: 'Select a city to view weather',
+            selectCityHint: 'Click any city on the left to see detailed forecast',
+            noResult: 'No matching city found',
+            searchResults: '🔍 Results',
+            loading: (city) => `Loading weather for ${city}...`,
+            airports: (n) => `${n} airports live`,
+            continents: {
+                'asia': '🌏 Asia',
+                'middle-east': '🕌 Middle East',
+                'europe': '🌍 Europe',
+                'north-america': '🌎 North America',
+                'south-america': '🌎 South America',
+                'oceania': '🏝️ Oceania',
+                'africa': '🌍 Africa',
+            },
+            footer: 'Data: <a href="https://open-meteo.com/" target="_blank">Open-Meteo</a> | Auto-refresh every 10 min | Free API · 7-day forecast | © KWeatherPro',
+            fontSizes: ['S','M','L'],
+            humidity: 'Humidity', feelsLike: 'Feels like', wind: 'Wind', pressure: 'Pressure',
+            today: 'Today', hourFmt: (h) => `${h}:00`,
+            precipProb: 'Rain', high: 'H', low: 'L',
+            apiError: '⚠️ Cannot connect to weather service. Please check your network.',
+        }
+    };
+    let currentLang = localStorage.getItem('kwp-lang') || 'zh';
+    const t = () => I18N[currentLang];
+
+    // ============ 英文搜索别名映射 ============
+    const CITY_ALIASES = {
+        // 中国
+        "beijing": "北京", "bjs": "北京", "pek": "北京",
+        "shanghai": "上海", "sha": "上海", "pvg": "上海",
+        "guangzhou": "广州", "canton": "广州", "can": "广州",
+        "shenzhen": "深圳", "szx": "深圳",
+        "chengdu": "成都", "ctu": "成都",
+        "hangzhou": "杭州", "hgh": "杭州",
+        "nanjing": "南京", "nkg": "南京",
+        "wuhan": "武汉", "wuh": "武汉",
+        "chongqing": "重庆", "ckg": "重庆",
+        "xian": "西安", "sia": "西安", "xlm": "西安",
+        "kunming": "昆明", "kmg": "昆明",
+        "harbin": "哈尔滨", "hrb": "哈尔滨",
+        "shenyang": "沈阳", "she": "沈阳",
+        "dalian": "大连", "dlc": "大连",
+        "qingdao": "青岛", "tao": "青岛",
+        "zhengzhou": "郑州", "cgo": "郑州",
+        "changsha": "长沙", "csx": "长沙",
+        "nanning": "南宁", "nng": "南宁",
+        "guiyang": "贵阳", "kwe": "贵阳",
+        "haikou": "海口", "hak": "海口",
+        "sanya": "三亚", "syx": "三亚",
+        "fuzhou": "福州", "foc": "福州",
+        "xiamen": "厦门", "xmn": "厦门",
+        "urumqi": "乌鲁木齐", "urc": "乌鲁木齐",
+        "lhasa": "拉萨", "lxa": "拉萨",
+        "tianjin": "天津", "tsn": "天津",
+        "hongkong": "香港", "hong kong": "香港", "hkg": "香港",
+        "macau": "澳门", "macao": "澳门", "mfm": "澳门",
+        "taipei": "台北", "tpe": "台北",
+        // 日韩
+        "tokyo": "东京", "nrt": "东京", "hnd": "东京",
+        "osaka": "大阪", "kix": "大阪",
+        "seoul": "首尔", "icn": "首尔", "gimpo": "首尔",
+        "busan": "釜山", "pus": "釜山",
+        "nagoya": "名古屋", "ngo": "名古屋",
+        "sapporo": "札幌", "cts": "札幌",
+        "fukuoka": "福冈", "fuk": "福冈",
+        // 东南亚
+        "singapore": "新加坡", "sin": "新加坡", "changi": "新加坡",
+        "bangkok": "曼谷", "bkk": "曼谷", "dmk": "曼谷",
+        "kuala lumpur": "吉隆坡", "kl": "吉隆坡", "kul": "吉隆坡",
+        "jakarta": "雅加达", "cgk": "雅加达",
+        "manila": "马尼拉", "mnl": "马尼拉",
+        "ho chi minh": "胡志明市", "saigon": "胡志明市", "sgn": "胡志明市",
+        "hanoi": "河内", "han": "河内",
+        "bali": "巴厘岛", "dps": "巴厘岛", "denpasar": "巴厘岛",
+        "phuket": "普吉岛", "hkt": "普吉岛",
+        "yangon": "仰光", "rgn": "仰光",
+        "phnom penh": "金边", "pnh": "金边",
+        "vientiane": "万象", "vlv": "万象",
+        "colombo": "科伦坡", "cmb": "科伦坡",
+        "dhaka": "达卡", "dac": "达卡",
+        // 南亚
+        "delhi": "新德里", "new delhi": "新德里", "del": "新德里",
+        "mumbai": "孟买", "bombay": "孟买", "bom": "孟买",
+        "bangalore": "班加罗尔", "bengaluru": "班加罗尔", "blr": "班加罗尔",
+        "hyderabad": "海德拉巴", "hyd": "海德拉巴",
+        "chennai": "钦奈", "madras": "钦奈", "maa": "钦奈",
+        "kolkata": "加尔各答", "calcutta": "加尔各答", "ccu": "加尔各答",
+        "karachi": "卡拉奇", "khi": "卡拉奇",
+        "lahore": "拉合尔", "lhe": "拉合尔",
+        "islamabad": "伊斯兰堡", "isb": "伊斯兰堡",
+        "kathmandu": "加德满都", "ktm": "加德满都",
+        // 中东
+        "dubai": "迪拜", "dxb": "迪拜",
+        "abu dhabi": "阿布扎比", "auh": "阿布扎比",
+        "doha": "多哈", "doh": "多哈",
+        "riyadh": "利雅得", "ruh": "利雅得",
+        "jeddah": "吉达", "jed": "吉达",
+        "kuwait": "科威特城", "kwi": "科威特城",
+        "muscat": "马斯喀特", "mct": "马斯喀特",
+        "manama": "麦纳麦", "bah": "麦纳麦",
+        "tehran": "德黑兰", "ika": "德黑兰",
+        "istanbul": "伊斯坦布尔", "ist": "伊斯坦布尔",
+        "tel aviv": "特拉维夫", "tlv": "特拉维夫",
+        "amman": "安曼", "amm": "安曼",
+        "beirut": "贝鲁特", "bey": "贝鲁特",
+        "baghdad": "巴格达", "bgw": "巴格达",
+        // 欧洲
+        "london": "伦敦", "lhr": "伦敦", "lgw": "伦敦", "ltn": "伦敦",
+        "paris": "巴黎", "cdg": "巴黎", "ory": "巴黎",
+        "frankfurt": "法兰克福", "fra": "法兰克福",
+        "amsterdam": "阿姆斯特丹", "ams": "阿姆斯特丹",
+        "madrid": "马德里", "mad": "马德里",
+        "barcelona": "巴塞罗那", "bcn": "巴塞罗那",
+        "rome": "罗马", "fco": "罗马",
+        "milan": "米兰", "mxp": "米兰", "linate": "米兰",
+        "berlin": "柏林", "ber": "柏林", "txl": "柏林",
+        "munich": "慕尼黑", "muc": "慕尼黑",
+        "vienna": "维也纳", "vie": "维也纳",
+        "zurich": "苏黎世", "zrh": "苏黎世",
+        "geneva": "日内瓦", "gva": "日内瓦",
+        "brussels": "布鲁塞尔", "bru": "布鲁塞尔",
+        "copenhagen": "哥本哈根", "cph": "哥本哈根",
+        "stockholm": "斯德哥尔摩", "arn": "斯德哥尔摩",
+        "oslo": "奥斯陆", "osl": "奥斯陆",
+        "helsinki": "赫尔辛基", "hel": "赫尔辛基",
+        "warsaw": "华沙", "waw": "华沙",
+        "prague": "布拉格", "prg": "布拉格",
+        "budapest": "布达佩斯", "bud": "布达佩斯",
+        "athens": "雅典", "ath": "雅典",
+        "lisbon": "里斯本", "lis": "里斯本",
+        "moscow": "莫斯科", "svo": "莫斯科", "dme": "莫斯科",
+        "st petersburg": "圣彼得堡", "led": "圣彼得堡",
+        "kiev": "基辅", "kyiv": "基辅", "iev": "基辅",
+        "dubai": "迪拜", "dxb": "迪拜",
+        "zurich": "苏黎世", "zrh": "苏黎世",
+        // 北美
+        "new york": "纽约", "nyc": "纽约", "jfk": "纽约", "lga": "纽约", "ewr": "纽约",
+        "los angeles": "洛杉矶", "la": "洛杉矶", "lax": "洛杉矶",
+        "chicago": "芝加哥", "ord": "芝加哥", "ohare": "芝加哥",
+        "san francisco": "旧金山", "sf": "旧金山", "sfo": "旧金山",
+        "seattle": "西雅图", "sea": "西雅图",
+        "miami": "迈阿密", "mia": "迈阿密",
+        "dallas": "达拉斯", "dfw": "达拉斯",
+        "houston": "休斯顿", "iah": "休斯顿", "hou": "休斯顿",
+        "atlanta": "亚特兰大", "atl": "亚特兰大",
+        "boston": "波士顿", "bos": "波士顿",
+        "washington": "华盛顿", "dc": "华盛顿", "iad": "华盛顿", "dca": "华盛顿",
+        "las vegas": "拉斯维加斯", "vegas": "拉斯维加斯", "las": "拉斯维加斯",
+        "denver": "丹佛", "den": "丹佛",
+        "phoenix": "凤凰城", "phx": "凤凰城",
+        "minneapolis": "明尼阿波利斯", "msp": "明尼阿波利斯",
+        "detroit": "底特律", "dtw": "底特律",
+        "toronto": "多伦多", "yyz": "多伦多",
+        "vancouver": "温哥华", "yvr": "温哥华",
+        "montreal": "蒙特利尔", "yul": "蒙特利尔",
+        "calgary": "卡尔加里", "yyc": "卡尔加里",
+        "mexico city": "墨西哥城", "mex": "墨西哥城",
+        "cancun": "坎昆", "cun": "坎昆",
+        // 南美
+        "sao paulo": "圣保罗", "gru": "圣保罗",
+        "rio": "里约热内卢", "rio de janeiro": "里约热内卢", "gig": "里约热内卢",
+        "buenos aires": "布宜诺斯艾利斯", "eze": "布宜诺斯艾利斯",
+        "bogota": "波哥大", "bog": "波哥大",
+        "lima": "利马", "lim": "利马",
+        "santiago": "圣地亚哥", "scl": "圣地亚哥",
+        // 大洋洲
+        "sydney": "悉尼", "syd": "悉尼",
+        "melbourne": "墨尔本", "mel": "墨尔本",
+        "brisbane": "布里斯班", "bne": "布里斯班",
+        "perth": "珀斯", "per": "珀斯",
+        "auckland": "奥克兰", "akl": "奥克兰",
+        // 非洲
+        "cairo": "开罗", "cai": "开罗",
+        "johannesburg": "约翰内斯堡", "jnb": "约翰内斯堡",
+        "nairobi": "内罗毕", "nbo": "内罗毕",
+        "casablanca": "卡萨布兰卡", "cmn": "卡萨布兰卡",
+        "lagos": "拉各斯", "los": "拉各斯",
+        "addis ababa": "亚的斯亚贝巴", "add": "亚的斯亚贝巴",
+        "cape town": "开普敦", "cpt": "开普敦",
+        "accra": "阿克拉", "acc": "阿克拉",
+        "tunis": "突尼斯", "tun": "突尼斯",
+        "algiers": "阿尔及尔", "alg": "阿尔及尔",
+    };
+
     // ============ 构建全局城市索引（用于跨地区搜索） ============
     function buildGlobalIndex() {
         const index = [];
@@ -1217,18 +1546,37 @@
         let html = '';
         
         if (search) {
-            // 搜索模式：跨所有大洲搜索
-            const results = globalCityIndex.filter(c =>
-                c.city.toLowerCase().includes(search) ||
-                c.airports.some(a => a.code.toLowerCase().includes(search) || a.name.toLowerCase().includes(search))
-            );
+            // 搜索模式：跨所有大洲搜索，支持中英文
+            const searchLower = search.toLowerCase().trim();
+            // 尝试英文别名映射 → 中文城市名
+            const mappedChinese = CITY_ALIASES[searchLower] || '';
+            
+            const results = globalCityIndex.filter(c => {
+                const cityLower = c.city.toLowerCase();
+                // 1. 中文城市名匹配
+                if (cityLower.includes(searchLower)) return true;
+                // 2. 英文别名映射后匹配
+                if (mappedChinese && cityLower.includes(mappedChinese.toLowerCase())) return true;
+                // 3. 机场代码/英文名直接匹配
+                if (c.airports.some(a =>
+                    a.code.toLowerCase().includes(searchLower) ||
+                    a.name.toLowerCase().includes(searchLower)
+                )) return true;
+                // 4. 遍历别名表，看搜索词是否命中某个别名对应的城市
+                for (const [alias, chName] of Object.entries(CITY_ALIASES)) {
+                    if (alias.includes(searchLower) || searchLower.includes(alias)) {
+                        if (cityLower.includes(chName.toLowerCase())) return true;
+                    }
+                }
+                return false;
+            });
             
             if (results.length === 0) {
-                container.innerHTML = '<div style="padding:1rem;text-align:center;color:var(--text-muted)">没有找到匹配的城市</div>';
+                container.innerHTML = `<div style="padding:1rem;text-align:center;color:var(--text-muted)">${t().noResult}</div>`;
                 return;
             }
             
-            html += `<div class="sub-region-divider">🔍 搜索结果 (${results.length})</div>`;
+            html += `<div class="sub-region-divider">${t().searchResults} (${results.length})</div>`;
             html += '<div class="city-row">';
             
             results.forEach(cityData => {
@@ -1283,7 +1631,7 @@
             });
         }
         
-        container.innerHTML = html || '<div style="padding:1rem;text-align:center;color:var(--text-muted)">没有找到匹配的城市</div>';
+        container.innerHTML = html || `<div style="padding:1rem;text-align:center;color:var(--text-muted)">${t().noResult}</div>`;
     }
 
     // ============ 选择城市（支持跨地区） ============
@@ -1349,7 +1697,7 @@
             omaBaseURL = OMA_ENDPOINTS[omaEndpointIdx];
         }
 
-        _apiErrorMsg = '⚠️ 无法连接天气数据服务，请检查网络连接后重试。如果在中国大陆，可能需要科学上网访问 Open-Meteo API。';
+        _apiErrorMsg = t().apiError;
         return null;
     }
 
@@ -1468,7 +1816,7 @@
         const airports = city.airports;
         const now = new Date();
 
-        container.innerHTML = `<div class="loading"><div class="spinner"></div><p>加载 ${city.city} 各机场天气...</p></div>`;
+        container.innerHTML = `<div class="loading"><div class="spinner"></div><p>${t().loading(city.city)}</p></div>`;
 
         // 并行拉取所有机场数据
         const results = await Promise.all(airports.map(apt => fetchWeatherForApt(apt)));
@@ -1478,9 +1826,9 @@
                 <div class="current-header">
                     <div>
                         <div class="current-location">${city.city}</div>
-                        <div class="current-airport">✈️ ${airports.length > 1 ? airports.length + ' 个机场实时天气' : airports[0].name + ' (' + airports[0].code + ')'}</div>
+                        <div class="current-airport">✈️ ${airports.length > 1 ? t().airports(airports.length) : airports[0].name + ' (' + airports[0].code + ')'}</div>
                     </div>
-                    <div class="current-time">${now.toLocaleString('zh-CN',{month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'})}</div>
+                    <div class="current-time">${now.toLocaleString(currentLang === 'zh' ? 'zh-CN' : 'en-US',{month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'})}</div>
                 </div>
             </div>
             <div class="multi-airport-wrapper">`;
@@ -1505,8 +1853,8 @@
             document.getElementById('weatherContent').innerHTML = `
                 <div class="no-selection">
                     <div class="no-selection-icon">🌤️</div>
-                    <h2>选择一个城市查看天气</h2>
-                    <p>点击左侧任意城市即可查看详细预报</p>
+                    <h2>${t().selectCity}</h2>
+                    <p>${t().selectCityHint}</p>
                 </div>
             `;
         });
@@ -1521,16 +1869,115 @@
             });
         });
 
+        // 字体大小切换
+        const savedFontSize = localStorage.getItem('kwp-font-size') || 'md';
+        document.body.classList.add('font-' + savedFontSize);
+        document.querySelectorAll('.font-size-btn').forEach(b => {
+            if (b.dataset.size === savedFontSize) b.classList.add('active');
+            else b.classList.remove('active');
+        });
+        document.querySelectorAll('.font-size-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.font-size-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const size = btn.dataset.size;
+                document.body.classList.remove('font-sm', 'font-md', 'font-lg');
+                document.body.classList.add('font-' + size);
+                localStorage.setItem('kwp-font-size', size);
+            });
+        });
+
         // 10分钟自动刷新
         setInterval(() => {
             if (state.selectedAirport) {
                 state.weatherCache.clear();
                 renderWeather();
-                document.getElementById('lastUpdate').textContent = `更新: ${new Date().toLocaleTimeString('zh-CN')}`;
+                document.getElementById('lastUpdate').textContent = t().updatePrefix + new Date().toLocaleTimeString(currentLang === 'zh' ? 'zh-CN' : 'en-US');
             }
         }, 600000);
 
-        document.getElementById('lastUpdate').textContent = `更新: ${new Date().toLocaleTimeString('zh-CN')}`;
+        document.getElementById('lastUpdate').textContent = t().updatePrefix + new Date().toLocaleTimeString(currentLang === 'zh' ? 'zh-CN' : 'en-US');
+
+        // 解析 URL hash，分享链接直接定位城市
+        (function parseHash() {
+            const hash = location.hash.replace('#', '');
+            if (!hash) return;
+            const [citySlug, aptCode] = hash.split('|');
+            if (!citySlug) return;
+            // 在所有城市中查找
+            for (const [regionName, cities] of Object.entries(weatherData)) {
+                for (const city of cities) {
+                    if (encodeURIComponent(city.city) === citySlug || city.city === decodeURIComponent(citySlug)) {
+                        state.selectedCity = city;
+                        state.selectedAirport = aptCode
+                            ? city.airports.find(a => a.code === aptCode) || city.airports[0]
+                            : city.airports[0];
+                        renderCityGrid();
+                        renderWeather();
+                        // 切换到大洲
+                        const regionKeys = { '亚洲': 'asia', '中东': 'middle-east', '欧洲': 'europe', '北美洲': 'north-america', '南美洲': 'south-america', '大洋洲': 'oceania', '非洲': 'africa' };
+                        for (const [cn, key] of Object.entries(regionKeys)) {
+                            if (weatherData[cn] === cities || regionName === cn) {
+                                document.getElementById('continentSelect').value = key;
+                                break;
+                            }
+                        }
+                        return;
+                    }
+                }
+            }
+        })();
+
+        // ============ 语言切换 ============
+        function applyLang() {
+            const lang = currentLang;
+            // 搜索框 placeholder
+            document.getElementById('searchInput').placeholder = t().searchPlaceholder;
+            // 更新时间
+            document.getElementById('lastUpdate').textContent = t().updatePrefix + new Date().toLocaleTimeString(lang === 'zh' ? 'zh-CN' : 'en-US');
+            // 字体大小按钮文字
+            const fontBtns = document.querySelectorAll('.font-size-btn');
+            const sizes = t().fontSizes;
+            fontBtns.forEach((b, i) => { if (sizes[i]) b.textContent = sizes[i]; });
+            // 大洲下拉选项
+            const select = document.getElementById('continentSelect');
+            const continentMap = t().continents;
+            Array.from(select.options).forEach(opt => {
+                if (continentMap[opt.value]) opt.textContent = continentMap[opt.value];
+            });
+            // footer
+            document.querySelector('.footer').innerHTML = t().footer;
+            // no-selection 初始状态
+            const noSelTitle = document.getElementById('noSelTitle');
+            const noSelHint = document.getElementById('noSelHint');
+            if (noSelTitle) noSelTitle.textContent = t().selectCity;
+            if (noSelHint) noSelHint.textContent = t().selectCityHint;
+            // 语言按钮高亮
+            document.querySelectorAll('.lang-btn').forEach(b => {
+                b.classList.toggle('active', b.dataset.lang === lang);
+            });
+            // 分享按钮文字
+            const shareBtnText = document.getElementById('shareBtnText');
+            if (shareBtnText) shareBtnText.textContent = lang === 'zh' ? '分享' : 'Share';
+            // 城市列表重新渲染（更新大洲标签等）
+            renderCityGrid();
+            // 如果已选城市，重新渲染天气
+            if (state.selectedCity) renderWeather();
+        }
+
+        // 初始化语言状态
+        document.querySelectorAll('.lang-btn').forEach(b => {
+            b.classList.toggle('active', b.dataset.lang === currentLang);
+        });
+        applyLang();
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentLang = btn.dataset.lang;
+                localStorage.setItem('kwp-lang', currentLang);
+                applyLang();
+            });
+        });
     }
 
     document.addEventListener('DOMContentLoaded', init);
@@ -1545,6 +1992,75 @@
             });
         });
     }
+    </script>
+    <script>
+    // ============ 分享到微信功能 ============
+    (function() {
+        const shareBtn = document.getElementById('shareBtn');
+        const shareModal = document.getElementById('shareModal');
+        const shareClose = document.getElementById('shareClose');
+        const shareLinkInput = document.getElementById('shareLinkInput');
+        const shareCopyBtn = document.getElementById('shareCopyBtn');
+        const shareQrDiv = document.getElementById('shareQr');
+        const shareTitle = document.getElementById('shareTitle');
+        const shareTip = document.getElementById('shareTip');
+
+        function getShareUrl() {
+            if (state.selectedCity && state.selectedAirport) {
+                const citySlug = encodeURIComponent(state.selectedCity.city);
+                const code = state.selectedAirport.code;
+                return location.origin + location.pathname + '#' + citySlug + '|' + code;
+            }
+            return location.href;
+        }
+
+        function updateShareLang() {
+            const lang = currentLang || 'zh';
+            if (shareTitle) shareTitle.textContent = lang === 'zh' ? '分享天气页面' : 'Share Weather';
+            if (shareCopyBtn && !shareCopyBtn.classList.contains('copied')) {
+                shareCopyBtn.textContent = lang === 'zh' ? '复制链接' : 'Copy Link';
+            }
+            if (shareTip) shareTip.textContent = lang === 'zh' ? '微信扫码打开，或复制链接发送给好友' : 'Scan QR code in WeChat, or copy the link';
+        }
+
+        if (shareBtn) {
+            shareBtn.addEventListener('click', () => {
+                const url = getShareUrl();
+                shareLinkInput.value = url;
+                // 使用 Google Chart API 生成二维码（稳定可靠）
+                const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(url) + '&bgcolor=ffffff&color=1a365d&margin=10';
+                shareQrDiv.innerHTML = '<img src="' + qrUrl + '" alt="QR Code" style="border-radius:8px;width:200px;height:200px;" />';
+                updateShareLang();
+                shareModal.classList.add('show');
+            });
+        }
+        if (shareClose) {
+            shareClose.addEventListener('click', () => shareModal.classList.remove('show'));
+        }
+        if (shareModal) {
+            shareModal.addEventListener('click', (e) => {
+                if (e.target === shareModal) shareModal.classList.remove('show');
+            });
+        }
+        if (shareCopyBtn) {
+            shareCopyBtn.addEventListener('click', () => {
+                const url = shareLinkInput.value;
+                navigator.clipboard.writeText(url).then(() => {
+                    shareCopyBtn.textContent = currentLang === 'zh' ? '已复制 ✓' : 'Copied ✓';
+                    shareCopyBtn.classList.add('copied');
+                    setTimeout(() => {
+                        shareCopyBtn.textContent = currentLang === 'zh' ? '复制链接' : 'Copy Link';
+                        shareCopyBtn.classList.remove('copied');
+                    }, 1500);
+                }).catch(() => {
+                    shareLinkInput.select();
+                    document.execCommand('copy');
+                    shareCopyBtn.textContent = currentLang === 'zh' ? '已复制 ✓' : 'Copied ✓';
+                });
+            });
+        }
+    })();
+    </script>
     </script>
 </body>
 </html>
